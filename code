@@ -1,0 +1,38 @@
+import random
+import csv
+
+def read_csv(filename):
+    anime_data = {}
+    with open("anime_traits.csv", mode='r', encoding='utf-8') as file:
+        csv_reader = csv.DictReader(file)
+        for row in csv_reader:
+            anime_data[row['name']] = row['trait']
+    return anime_data
+
+def anime_guessing_game(anime_data):
+    score = 0
+    
+    while True:
+        character, traits = random.choice(list(anime_data.items()))
+        
+        print("Traits: " + traits)
+        guess = input("Guess the anime character: ").strip()
+        
+        if guess.lower() == character.lower():
+            print("Correct!")
+            score += 1
+        else:
+            print(f"Wrong! The correct answer is {character}")
+        
+        play_again = input("Play again? (yes/no): ").strip().lower()
+        if play_again != 'yes':
+            break
+    
+    print(f"Your final score: {score}")
+
+if __name__ == "__main__":
+    csv_filename = "anime_characters.csv"  # Replace with your CSV file's name
+    anime_data = read_csv(csv_filename)
+    
+    print("Welcome to the Anime Character Trait Guessing Game!")
+    anime_guessing_game(anime_data)
